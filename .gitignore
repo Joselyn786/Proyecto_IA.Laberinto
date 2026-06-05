@@ -1,0 +1,19 @@
+# Cache de Python (Archivos compilados .pyc)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales (Si creas uno localmente para instalar Pygame)
+venv/
+.venv/
+env/
+ENV/
+nvs/
+
+# Configuraciones de editores de código locales
+.vscode/
+.idea/
+
+# Archivos del sistema operativo (Opcional pero recomendado)
+.DS_Store
+Thumbs.db
