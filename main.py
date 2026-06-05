@@ -15,6 +15,7 @@ BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+PURPLE = (128, 0, 128)
 
 # Carga de imágenes
 try:
@@ -73,6 +74,9 @@ def randomize_walls(grid, rows):
                 node.is_wall = True
     grid[0][0].is_wall = False
     grid[rows-1][rows-1].is_wall = False
+    
+    grid[0][0].color = PURPLE
+    grid[rows-1][rows-1].color = PURPLE
 
 def draw_agent(win, current, previous):
     if AGENT_IMG:
@@ -92,7 +96,7 @@ def draw_agent(win, current, previous):
 def h(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
 
-def reconstruct_path(came_from, current, draw_func):
+def reconstruct_path(came_from, current, draw_func, start, end):
     path = []
     temp = current
     while temp in came_from:
@@ -110,6 +114,10 @@ def reconstruct_path(came_from, current, draw_func):
         draw_func()
         prev = path[i-1] if i > 0 else None
         draw_agent(WIN, path[i], prev)
+       
+        pygame.draw.rect(WIN, PURPLE, (start.x, start.y, start.width, start.width), 3)
+        pygame.draw.rect(WIN, PURPLE, (end.x, end.y, end.width, end.width), 3)
+        
         pygame.display.update()
         pygame.time.delay(100)
 
@@ -132,7 +140,7 @@ def a_star(draw_func, grid, start, end):
         open_set_hash.remove(current)
 
         if current == end:
-            reconstruct_path(came_from, end, draw_func)
+            reconstruct_path(came_from, end, draw_func, start, end)
             return True
 
         for neighbor in current.neighbors:
@@ -145,7 +153,8 @@ def a_star(draw_func, grid, start, end):
                     count += 1
                     open_set.put((f_score[neighbor], count, neighbor))
                     open_set_hash.add(neighbor)
-                    neighbor.color = GREEN
+                    if neighbor != end:
+                        neighbor.color = GREEN
         draw_func()
         if current != start: current.color = RED
     return False
@@ -156,13 +165,23 @@ def make_grid(rows, width):
 def draw(win, grid):
     win.fill(WHITE)
     for row in grid:
-        for node in row: node.draw(win)
+        for node in row: 
+            node.draw(win)
+            
+    start = grid[0][0]
+    end = grid[len(grid)-1][len(grid)-1]
+    pygame.draw.rect(win, PURPLE, (start.x, start.y, start.width, start.width), 3)
+    pygame.draw.rect(win, PURPLE, (end.x, end.y, end.width, end.width), 3)
+    
     pygame.display.update()
-
+    
 def main(win, width):
     grid = make_grid(ROWS, width)
     start = grid[0][0]
     end = grid[ROWS-1][ROWS-1]
+    
+    start.color = PURPLE
+    end.color = PURPLE
     
     run = True
     while run:
