@@ -39,7 +39,7 @@ def draw_hud(win, stats):
         y_offset += 40
 
 def render_node(node, win):
-    # Fondo
+    
     if node.is_wall:
         if IMG_PARED: win.blit(IMG_PARED, (node.x, node.y))
         else: pygame.draw.rect(win, BLACK, (node.x, node.y, node.width, node.width))
@@ -47,12 +47,10 @@ def render_node(node, win):
         if IMG_FONDO: win.blit(IMG_FONDO, (node.x, node.y))
         else: pygame.draw.rect(win, WHITE, (node.x, node.y, node.width, node.width))
     
-    # Capa de color
     if node.color != WHITE:
         pygame.draw.rect(win, node.color, (node.x, node.y, node.width, node.width))
         pygame.draw.rect(win, GREY, (node.x, node.y, node.width, node.width), 1)
 
-    # Métricas
     if not node.is_wall and node.f is not None:
         f_surf = FONT_MAIN.render(str(int(node.f)), True, BLACK)
         win.blit(f_surf, (node.x + node.width//2 - f_surf.get_width()//2, node.y + 2))

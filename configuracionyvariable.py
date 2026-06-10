@@ -15,13 +15,11 @@ GAP = WIDTH // ROWS
 WIN = pygame.display.set_mode((TOTAL_WIDTH, WIDTH))
 pygame.display.set_caption("Agente Explorador A* - JH y JV")
 
-# Fuentes
 FONT_MAIN = pygame.font.SysFont("Arial", int(GAP * 0.35), bold=True)
 FONT_SUB = pygame.font.SysFont("Arial", int(GAP * 0.22))
 FONT_HUD = pygame.font.SysFont("Arial", 20, bold=True)
 FONT_HUD_TEXT = pygame.font.SysFont("Arial", 16)
 
-# Colores
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (46, 204, 113)    
